@@ -1,6 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:tests/Model/productoAdapter.dart';
+import 'package:tests/Model/ventaAdaptador.dart';
+import 'package:tests/Model/ventaTemporalAdaptador.dart';
+import 'package:tests/Repository/ventaTempRepository.dart';
+import 'package:tests/View/homepage.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
-void main() {
+Future<void> main() async {
+  await Hive.initFlutter();
+  Hive.registerAdapter(ProductoAdapter());
+  Hive.registerAdapter(VentaTemporalAdapter());
+  Hive.registerAdapter(VentaAdapter());
+  await Hive.openBox('categorias');
+  await Hive.openBox('productos');
+  await Hive.openBox('ventaTemporal');
+  await Hive.openBox('ventas');
+  VentaTempRepository ventaTempRepository = VentaTempRepository();
+  await ventaTempRepository
+      .resetCantidadSeleccionada(ventaTempRepository.getTempVentaProducts());
+  Hive.box('ventaTemporal').clear();
   runApp(const MyApp());
 }
 
@@ -10,59 +28,16 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
+      title: 'Punto de Venta',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(
+            seedColor: Colors.blueAccent,
+            secondary: Colors.orangeAccent,
+            primary: Colors.blueAccent),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      home: const MyHomePage(),
     );
   }
 }
