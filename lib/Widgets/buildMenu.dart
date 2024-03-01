@@ -49,8 +49,15 @@ class SideMenuContent extends StatelessWidget {
             );
           },
         ),
-        const SizedBox(height: 10),
+        const SizedBox(height: 425),
         ListTile(
+          leading: const Icon(Icons.exit_to_app),
+          title: const Text('Cerrar Aplicación'),
+          onTap: () {
+            Navigator.of(context).popUntil((route) => route.isFirst);
+          },
+        ),
+        /* ListTile(
           leading: const Icon(Icons.receipt),
           title: const Text('Reportes'),
           onTap: () {
@@ -61,15 +68,8 @@ class SideMenuContent extends StatelessWidget {
             );
           },
         ),
-        const SizedBox(height: 400),
+        
         ListTile(
-          leading: const Icon(Icons.exit_to_app),
-          title: const Text('Cerrar Aplicación'),
-          onTap: () {
-            Navigator.of(context).popUntil((route) => route.isFirst);
-          },
-        ),
-        /*ListTile(
           leading: const Icon(Icons.people),
           title: const Text('Usuarios'),
           onTap: () {

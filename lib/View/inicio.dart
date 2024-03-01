@@ -75,7 +75,7 @@ class PrincipalView extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 15),
-            Row(
+            /*  Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 const SizedBox(width: 58),
@@ -102,7 +102,7 @@ class PrincipalView extends StatelessWidget {
                   ),
                 ),
               ],
-            ),
+            ),*/
           ],
         ),
       ),
